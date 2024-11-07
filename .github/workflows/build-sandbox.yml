@@ -1,0 +1,41 @@
+name: sandbox build
+on:
+  workflow_dispatch:
+      
+concurrency:  
+  group: sandbox
+  cancel-in-progress: true
+  
+jobs:
+  build-upload:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+    
+      - name: Build and export
+        uses: docker/build-push-action@v6
+        with:
+          tags: myimage:latest
+          outputs: type=docker,dest=/tmp/myimage.tar
+      
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: myimage
+          path: /tmp/myimage.tar
+        
+  sandbox-deploy:
+    needs: build-upload
+    runs-on: ubuntu-latest
+    environment: sandbox
+    steps:
+      - name: download
+        uses: actions/download-artifact@v4
+        with:
+          name: myimage
+
+      
