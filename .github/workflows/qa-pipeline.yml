@@ -1,4 +1,4 @@
-name: dev
+name: qa
 on:
   push:
     tags:
