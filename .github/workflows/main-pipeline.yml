@@ -1,6 +1,6 @@
 name: dev-qa-prod
 on:
-  pull_request:
+  push:
     branches:
       - main
       
