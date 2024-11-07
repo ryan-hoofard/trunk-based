@@ -1,0 +1,24 @@
+name: dev
+on:
+  push:
+    tags:
+      - v**
+  workflow_dispatch:
+      
+concurrency:  
+  group: qa
+  cancel-in-progress: true
+
+env:
+  BUILD_NAME: build-${{ github.sha }}
+  
+jobs:
+  build-download:
+    runs-on: ubuntu-latest
+    steps:
+      - name: download artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ env.BUILD_NAME }}
+          path: /tmp/myimage.tar
+      
