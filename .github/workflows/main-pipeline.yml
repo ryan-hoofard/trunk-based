@@ -1,4 +1,4 @@
-name: dev-qa-prod
+name: dev
 on:
   push:
     branches:
@@ -7,6 +7,9 @@ on:
 concurrency:  
   group: dev-qa-prod
   cancel-in-progress: true
+
+env:
+  BUILD_NAME: build-${{ github.sha }}
   
 jobs:
   build-upload:
@@ -21,43 +24,12 @@ jobs:
       - name: Build and export
         uses: docker/build-push-action@v6
         with:
-          tags: myimage:latest
+          tags: ${{ env.BUILD_NAME }}
           outputs: type=docker,dest=/tmp/myimage.tar
       
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
-          name: myimage
+          name: ${{ env.BUILD_NAME }}
           path: /tmp/myimage.tar
-        
-  dev-deploy:
-    needs: build-upload
-    runs-on: ubuntu-latest
-    environment: dev
-    steps:
-      - name: download
-        uses: actions/download-artifact@v4
-        with:
-          name: myimage
-
-  
-  qa-deploy:
-    needs: dev-deploy
-    runs-on: ubuntu-latest
-    environment: qa
-    steps:
-      - name: download
-        uses: actions/download-artifact@v4
-        with:
-          name: myimage
-
-  prod-deploy:
-    needs: qa-deploy
-    runs-on: ubuntu-latest
-    environment: prod
-    steps:
-      - name: download
-        uses: actions/download-artifact@v4
-        with:
-          name: myimage
       
