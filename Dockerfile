@@ -1,11 +1,6 @@
-FROM alpine:latest
+FROM ubuntu:latest
 
-
-
-
-
-RUN apk update
-RUN apk search -v
+RUN apt-get update -y
 
 
 
