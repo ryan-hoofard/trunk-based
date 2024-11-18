@@ -8,6 +8,8 @@ concurrency:
   group: dev
   cancel-in-progress: true
   
+env:
+  WORKING_DIR: services
 jobs:
   find-out-changes:
     runs-on: ubuntu-latest
@@ -23,9 +25,8 @@ jobs:
         uses: tj-actions/changed-files@v45
         with:
           dir_names: true
-          # dir_names_max_depth: 2  # This is optional. If not provided, full subdirectories' paths will be provided. Use it if you need to trim the output. See docs for details: https://github.com/tj-actions/changed-files/tree/main#inputs.
           matrix: true
-          path: services
+          path: ${{ env.WORKING_DIR }}
           diff_relative: true
 
       - name: show changed files
@@ -45,13 +46,14 @@ jobs:
       - name: check matrix
         run: echo ${{ matrix.directories }}
         
-      # - name: Set up Docker Buildx
-      #   uses: docker/setup-buildx-action@v3
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
     
-      # - name: Build and export
-      #   uses: docker/build-push-action@v6
-      #   with:
-      #     tags: ghcr.io/${{ github.repository }}/${{ matrix.files }}
-      #     push: true    
+      - name: Build and export
+        uses: docker/build-push-action@v6
+        with:
+          file: ${{ env.WORKING_DIR }}/${{ matrix.directories }}
+          tags: ghcr.io/${{ github.repository }}/${{ matrix.directories }}
+          push: true    
       
       
