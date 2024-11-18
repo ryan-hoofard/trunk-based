@@ -25,7 +25,7 @@ jobs:
           dir_names: true
           dir_names_max_depth: 1  # This is optional. If not provided, full subdirectories' paths will be provided. Use it if you need to trim the output. See docs for details: https://github.com/tj-actions/changed-files/tree/main#inputs.
           matrix: true
-          # path: ./services/
+          path: ./services/
 
   do-stuff:
     runs-on: ubuntu-latest
@@ -33,13 +33,14 @@ jobs:
     strategy:
       matrix: 
         directories: ${{fromJson(needs.find-out-changes.outputs.changed_directories)}}
+
     needs: [find-out-changes]
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
       
       - name: check matrix
-        run: echo ${{ matrix }}
+        run: echo ${{ matrix.directories }}
         
       # - name: Set up Docker Buildx
       #   uses: docker/setup-buildx-action@v3
