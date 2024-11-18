@@ -52,7 +52,7 @@ jobs:
       - name: Build and export
         uses: docker/build-push-action@v6
         with:
-          file: ${{ env.WORKING_DIR }}/${{ matrix.directories }}
+          file: ${{ env.WORKING_DIR }}/${{ matrix.directories }}/Dockerfile
           tags: ghcr.io/${{ github.repository }}/${{ matrix.directories }}
           push: true    
       
