@@ -16,7 +16,7 @@ jobs:
     steps:
       - name: checkout
         uses: actions/checkout@v4
-        
+
       - name: list folders
         id: folders
         working-directory: services
@@ -31,7 +31,7 @@ jobs:
     if: ${{ needs.get-services.outputs.services != '' }}
     strategy:
       matrix:
-        service: ${{ needs.get-services.outputs.services }}
+        service: ${{ fromJson(needs.get-services.outputs.services) }}
     steps:
       - name: Install Crane
         env:
