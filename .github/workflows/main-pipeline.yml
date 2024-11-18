@@ -42,6 +42,8 @@ jobs:
     permissions:
       contents: read
       packages: write
+    env:
+      IMAGE_NAME: ghcr.io/${{ github.repository }}/${{ matrix.directories }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -50,7 +52,7 @@ jobs:
         id: meta
         uses: docker/metadata-action@9ec57ed1fcdbf14dcef7dfbe97b2010124a938b7
         with:
-          images: ghcr.io/${{ matrix.directories }}
+          images: ${{ env.IMAGE_NAME }}
 
       - name: Login to GitHub Container Registry
         uses: docker/login-action@v3
@@ -66,7 +68,7 @@ jobs:
         uses: docker/build-push-action@v6
         with:
           file: ${{ env.WORKING_DIR }}/${{ matrix.directories }}/Dockerfile
-          tags: ghcr.io/${{ matrix.directories }},${{ steps.meta.outputs.tags }}
+          tags: ${{ env.IMAGE_NAME }},${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
           push: true    
       
