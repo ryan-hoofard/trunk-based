@@ -1,9 +1,8 @@
 name: qa
 on:
   push:
-    tags:
-      - v**
-  workflow_dispatch:
+    branches:
+      - release-**
       
 concurrency:  
   group: qa
@@ -17,8 +16,5 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: download artifact
-        uses: actions/download-artifact@v4
-        with:
-          name: ${{ env.BUILD_NAME }}
-          path: /tmp/myimage.tar
+        run: echo downloading...
       
