@@ -3,10 +3,11 @@ on:
   push:
     branches:
       - main
+    paths:
+      - services
       
 concurrency:  
   group: dev
-  cancel-in-progress: true
   
 env:
   WORKING_DIR: services
@@ -14,7 +15,7 @@ jobs:
   find-out-changes:
     runs-on: ubuntu-latest
     outputs:
-      changed_directories: ${{ steps.changed-files.outputs.all_changed_files }}  # The `dirs` doesn't exist in the outputs of changed-files@v35 action.
+      changed_directories: ${{ steps.changed-files.outputs.all_changed_files }}
     steps:
       - uses: actions/checkout@v3
         with:

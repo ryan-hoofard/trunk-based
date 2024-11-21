@@ -6,7 +6,6 @@ on:
       
 concurrency:  
   group: qa
-  cancel-in-progress: true
   
 jobs:
   get-services:

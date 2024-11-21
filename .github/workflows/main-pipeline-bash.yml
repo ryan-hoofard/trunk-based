@@ -1,0 +1,48 @@
+name: dev
+on:
+  push:
+    branches:
+      - main
+      
+concurrency:  
+  group: dev
+  
+jobs:
+  find-out-changes:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Get changed files
+        run: |
+          flag_1=false
+          flag_2=false
+          flag_3=false
+          flag_4=false
+          flag_5=false
+
+          string=`git diff --dirstat=files,0 HEAD~1 | sed 's/^[ 0-9.]\+% //g'`
+          echo string
+          
+          if [[ $string =~ "service_1" ]]; then
+            flag_1=true
+          fi
+          if [[ $string =~ "service_2" ]]; then
+            flag_2=true
+          fi
+          if [[ $string =~ "service_3" ]]; then
+            flag_3=true
+          fi
+          if [[ $string =~ "service_4" ]]; then
+            flag_4=true
+          fi
+          if [[ $string =~ "service_5" ]]; then
+            flag_5=true
+          fi
+
+          echo flag_1
+          echo flag_2
+      
+      
