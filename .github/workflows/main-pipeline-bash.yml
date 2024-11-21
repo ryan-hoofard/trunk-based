@@ -27,19 +27,19 @@ jobs:
           echo $string
 
           if [[ $string =~ "service_1" ]]; then
-            $flag_1=1
+            flag_1=1
           fi
           if [[ $string =~ "service_2" ]]; then
-            $flag_2=1
+            flag_2=1
           fi
           if [[ $string =~ "service_3" ]]; then
-            $flag_3=1
+            flag_3=1
           fi
           if [[ $string =~ "service_4" ]]; then
-            $flag_4=1
+            flag_4=1
           fi
           if [[ $string =~ "service_5" ]]; then
-            $flag_5=1
+            flag_5=1
           fi
 
           echo "flag_1=$flag_1"
