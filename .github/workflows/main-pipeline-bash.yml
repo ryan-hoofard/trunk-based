@@ -42,10 +42,10 @@ jobs:
             $flag_5=1
           fi
 
-          echo $flag_1
-          echo $flag_2
-          echo $flag_3
-          echo $flag_4
-          echo $flag_5
+          echo "flag_1=$flag_1"
+          echo "flag_2=$flag_2"
+          echo "flag_3=$flag_3"
+          echo "flag_4=$flag_4"
+          echo "flag_5=$flag_5"
       
       
