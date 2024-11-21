@@ -15,13 +15,16 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Get changed files
+      - name: test setting variable in other step
         run: |
           flag_1=0
+      - name: Get changed files
+        run: |
           flag_2=0
           flag_3=0
           flag_4=0
           flag_5=0
+          flag_6=0
 
           string=$(git diff --dirstat=files,0 HEAD~1 | sed 's/^[ 0-9.]\+% //g')
           echo "$string"
@@ -41,11 +44,16 @@ jobs:
           if [[ "$string" =~ "service_5" ]]; then
             flag_5=1
           fi
+          if [[ "$string" =~ "sub_folder1/service_6" ]]; then
+            flag_6=1
+          fi
 
           echo "flag_1=$flag_1"
           echo "flag_2=$flag_2"
           echo "flag_3=$flag_3"
           echo "flag_4=$flag_4"
           echo "flag_5=$flag_5"
+          echo "flag_6=$flag_6"
+
       
       
